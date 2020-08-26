@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h1>Checkout</h1>
+    </div>
+  </div>
+  <div class="row mt-3" *ngIf="products.length > 0; else noProducts">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Image</th>
+          <th scope="col">Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ product?.name || "-" }}</td>
+          <td>
+            <img [src]="imgPath + product?.image" height="50" width="50" />
+          </td>
+          <td>
+            {{ product?.quantity | number }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row mt-5" *ngIf="products.length > 0">
+    <div class="col-md-12 text-center">
+      <button type="button" class="btn btn-info" (click)="buy()" [disabled]="loading">
+        {{ loading ? "Loading..." : "Buy" }}</button>
+    </div>
+  </div>
+  <ng-template #noProducts>
+    <div class="row text-center mt-3">
+      <div class="col-md-12">No products found.</div>
+    </div>
+  </ng-template>
+</div>

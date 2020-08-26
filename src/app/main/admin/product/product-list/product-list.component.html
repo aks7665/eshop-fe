@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-10">
+      <h1>Products</h1>
+    </div>
+    <div class="col-md-2 text-right">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="redirectTo(['admin', 'products', 'create'])"
+      >
+        Add new product
+      </button>
+    </div>
+  </div>
+  <div class="row mt-3" *ngIf="(products$ | async).length > 0; else noProducts">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Image</th>
+          <th scope="col">Created At</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products$ | async; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ product?.name || "-" }}</td>
+          <td>
+            <img [src]="imgPath + product?.image" height="50" width="50" />
+          </td>
+          <td>{{ product?.createdAt | date }}</td>
+          <td>
+            <span>
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Example home icon"
+                class="ml-2 cp"
+                (click)="redirectTo(['admin', 'products', 'view', product?._id])"
+                >visibility</mat-icon
+              >
+            </span>
+            <span>
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Example home icon"
+                class="ml-2 cp"
+                (click)="redirectTo(['admin', 'products', 'update', product?._id])"
+                >edit</mat-icon
+              >
+            </span>
+            <span>
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Example home icon"
+                class="ml-2 cp"
+                (click)="deleteProduct(product?._id)"
+                >delete</mat-icon
+              >
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noProducts>
+    <div class="row text-center mt-3">
+      <div class="col-md-12">No products history found.</div>
+    </div>
+  </ng-template>
+</div>

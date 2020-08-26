@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h1>Cart</h1>
+    </div>
+  </div>
+  <div class="row mt-3" *ngIf="(products$ | async).length > 0; else noProducts">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Image</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products$ | async; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ product?.name || "-" }}</td>
+          <td>
+            <img [src]="imgPath + product?.image" height="50" width="50" />
+          </td>
+          <td>
+            <span class="slw mr-3 cp" (click)="onUpdateQty('inc', product?._id, product?.quantity)">+</span>
+            {{ product?.quantity }}
+            <span class="sld ml-3 cp" (click)="onUpdateQty('desc', product?._id, product?.quantity)">-</span></td>
+          <td>
+            <button type="button" class="btn btn-success" (click)="remove(product?._id)">Remove</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-12 text-center">
+      <button type="button" class="btn btn-info" (click)="redirectTo(['buyer', 'checkout'])">Checkout</button>
+    </div>
+  </div>
+  <ng-template #noProducts>
+    <div class="row text-center mt-3">
+      <div class="col-md-12">No products in cart.</div>
+    </div>
+  </ng-template>
+</div>

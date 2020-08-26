@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-10">
+      <h1>Orders</h1>
+    </div>
+  </div>
+  <div class="row mt-3" *ngIf="(orders$ | async).length > 0; else notFound">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Buyer Name</th>
+          <th scope="col">Products Name - Quantity</th>
+          <th scope="col">Order Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders$ | async; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ order?.buyer?.name | titlecase }}</td>
+          <td>
+            <div *ngFor="let product of order?.products">
+              <span>{{ product?.product?.name | titlecase }}</span> --
+              <span>{{ product?.quantity | number }}</span>
+            </div>
+          </td>
+          <td>{{ order?.createdAt | date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #notFound>
+    <div class="row text-center mt-3">
+      <div class="col-md-12">No orders history found.</div>
+    </div>
+  </ng-template>
+</div>

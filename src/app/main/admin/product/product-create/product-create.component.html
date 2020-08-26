@@ -1,0 +1,48 @@
+<div class="row mt-5">
+  <div class="col-md-4 offset-md-4 text-center">
+    <h1>Product {{ mode | titlecase }}</h1>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-md-4 offset-md-4">
+    <form (ngSubmit)="onSubmit(productForm)" #productForm="ngForm">
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Product Name</mat-label>
+            <input matInput name="name" [ngModel]="product?.name" [disabled]="mode === 'view'" required />
+            <mat-error> Product name is required. </mat-error>
+          </mat-form-field>
+        </div>
+        <input
+            type="file"
+            style="display: none"
+            [accept]="'image/*'"
+            (change)="onUploadImage($event)"
+            #filePicker
+          />
+        <div class="col-md-12 mt-2" *ngIf="!imageURL; else hasImage">
+          <div class="alert alert-primary text-center cp" role="alert" (click)="filePicker.click()">
+            Click here to upload image
+          </div>
+        </div>
+        <ng-template #hasImage>
+            <div class="col-md-12 mt-2 cp">
+              <img [src]="imageURL" height="200" (click)="mode === 'view' ? null : filePicker.click()">
+            </div>
+        </ng-template>
+        <div class="col-md-12 error " *ngIf="productForm.submitted && !imageURL">
+          Please upload a image.
+        </div>
+        <div class="col-md-12 error" *ngIf="imgError">
+          Error: Image Extension or Size(Max - 5 MB)
+        </div>
+        <div class="col-md-12 text-center mt-3" *ngIf="mode !== 'view'">
+          <button class="btn btn-primary" [disabled]="loading">
+            {{ (loading ? "Loading..." : mode) | titlecase }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+.sld, .slw {
+    padding: 5px;
+    font-size: 20px;
+}
+
+.slw {
+  background-color: yellow;
+}
+
+.sld {
+  background-color: red;
+}
